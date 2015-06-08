@@ -13,6 +13,9 @@ class Vector{
 		cap = 16;
 		vec = (int*) malloc(cap*sizeof(int));
 	}
+	~Vector(){
+		free(vec);
+	}
 	void insert(int index,int value){
 		if (index > sz || index < 0){
 			cout<<"Out of bounds!";
