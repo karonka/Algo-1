@@ -17,12 +17,15 @@ double binary(double l, double r, double x){
 	}
 	return (l + (r - l)/2);
 }
-
-double square_root(int x){
-	return binary(0,x,x);
-}
+class Roots {
+public:
+	double square_root(int x){
+		return binary(0,x,x);
+	}
+};
 
 int main(){
-	printf("%.5f", square_root());
+	Roots r;
+	printf("%.5f", r.square_root(20));
 	return 0;
 }
