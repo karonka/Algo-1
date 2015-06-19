@@ -13,10 +13,6 @@ public:
 		for(int i = 0; i < size; i++){
 			for(int j = 0; j < size; j++){
 				first.push_back(a[i] + b[j]);
-			}
-		}
-		for(int i = 0; i < size; i++){
-			for(int j = 0; j < size; j++){
 				second[c[i] + d[j]]++;
 			}
 		}
