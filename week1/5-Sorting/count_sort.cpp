@@ -3,7 +3,7 @@
 #define N 12
 using namespace std;
 
-class Count {
+class CountSort {
 public:
  // за голям range
 	void sort(int* seq,int sz){
@@ -43,7 +43,7 @@ public:
 
 
 int main(){
-	Count s;
+	CountSort s;
 	int arr[N] = {1,1,1,0,-50909,0,1,43534,1,1,1,1};//{5,8,-6,7,7,3,4,-1,0,2,0,-1};//{1,2,3,4,5,6,7,8,9,10};
 	s.sort(arr,N);
 	for(int i = 0; i < N; i++) cout<<arr[i]<<" ";

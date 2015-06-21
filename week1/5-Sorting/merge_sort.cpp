@@ -10,7 +10,7 @@ void swap(int &a, int &b){
 	b = tmp;
 }
 
-class Sorting {
+class MergeSort {
 public:
   void sort(int* seq, int sz){
 	if (sz == 2){
@@ -51,7 +51,7 @@ public:
 };
 
 int main(){
-	Sorting s;
+	MergeSort s;
 	int arr[N] = {5,6,3,6,8,3,1,2,0,4,1,1,1,1,1};// {10,9,8,7,6,5,4,3,2,1};//{1,2,3,4,5,6,7,8,9,10};//{5,8,-6,9,7,3,4,-1,0,2};
 	s.sort(arr,N);
 	for(int i = 0; i < N; i++) cout<<arr[i]<<" ";

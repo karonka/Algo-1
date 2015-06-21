@@ -10,7 +10,7 @@ void swap(int &a, int &b){
 	a = b;
 	b = tmp;
 }
-class Selection {
+class SelectionSort {
 public:
   void sort(int* seq, int sz){
 	for(int i = 0; i < sz - 1; i++){
@@ -26,7 +26,7 @@ public:
 };
 
 int main(){
-	Selection s;
+	SelectionSort s;
 	int arr[N] = {5,8,6,9,7,3,4,1,0,2};
 	s.sort(arr,N);
 	for(int i = 0; i < N; i++) cout<<arr[i]<<" ";
