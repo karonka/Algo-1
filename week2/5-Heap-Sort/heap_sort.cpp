@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #define INF 2147483647
 using namespace std;
 
@@ -30,15 +31,19 @@ public:
 		}
 	}
 	void sort(int* seq, int size) {
-		int sz = size - 1;
-		for(int i = 1; i < size; i++){
-			heapify(seq + i, sz--, 0);
+		int arr[size];
+		for(int i = 0; i < size; i++){
+			arr[i] = seq[0];
+			swap(seq[0], seq[size - i - 1]);
+			heapify(seq, size - i - 1, 0);
 		}
+		memcpy(seq,arr,size*sizeof(int));
 	}
 };
 
 int main(){
-	int arr[] = {5,10,3,20,16,8,12};
+	//int arr[] = {5,10,3,20,16,8,12};
+	int arr[] = {0,5,3,6,4,8,4};
 	HeapSort hs;
 	hs.make_heap(arr,7);
 	for(int i = 0; i < 7; i++) cout<<arr[i]<<" ";cout<<endl;
