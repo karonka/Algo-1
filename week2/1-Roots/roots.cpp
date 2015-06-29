@@ -26,6 +26,6 @@ public:
 
 int main(){
 	Roots r;
-	printf("%.5f", r.square_root(20));
+	printf("%.5f", r.square_root(5));
 	return 0;
 }
