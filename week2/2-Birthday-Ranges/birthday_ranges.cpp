@@ -40,9 +40,19 @@ public:
 
 int main(){
 	BirthdayRanges br;
-	vector<int> v = {1,1,1,1,4,6,6,3,3,7,2,1,20,55,5,5,300};
-	vector<Pair> ranges = {Pair(0,5),Pair(4,10), Pair(10,365)};
+	int n,m,a,b;
+	cin >> n >> m;
+	vector<int> v;
+	while(n--) {
+		cin >> a;
+		v.push_back(a);
+	}
+	vector<Pair> ranges;// = {Pair(0,5),Pair(4,10), Pair(10,365)};
+	while(m--){
+		cin >> a >> b;
+		ranges.push_back(Pair(a,b));
+	}
 	vector <int> result = br.birthdays_count(v,ranges);
-	for (int i = 0; i < result.size(); i++) cout<<result[i]<<" ";
+	for (int i = 0; i < result.size(); i++) cout<<result[i]<<endl;
 	return 0;
 }

@@ -12,47 +12,42 @@ public:
   Contact(string name, int num):name(name),number(num){};
 };
 
+vector<Contact> phone_book;
+int size;
 bool cmp (Contact i,Contact j) { return (i.number < j.number); }
-string binary(int num, vector<Contact> &book){
+void binary(int num){
 	int l = 0; 
-	int r = book.size();
+	int r = size;
 	int mid;
 	while(l < r) {
 		mid = l + (r - l)/2;
-		if (book[mid].number == num) return book[mid].name;
-		if (book[mid].number > num){
+		if (phone_book[mid].number == num) {
+			cout << phone_book[mid].name << endl;
+			return;
+		}
+		if (phone_book[mid].number > num){
 			r = l + (r - l)/2 - 1;
 		}
 		else{
 			l = l + (r - l)/2 + 1;
 		}
 	}
-	return book[l].name;
+	cout << phone_book[l].name << endl;
 }
 
-class PhoneBook {
-public:
-
-  // Find the names of people based on their phone numbers.
-  vector<string> lookupNames(vector<Contact> &phoneBook, vector<int> &numbers) {
-    	vector<string> names;
-		sort(phoneBook.begin(),phoneBook.end(),cmp);
-		for(unsigned i = 0; i < numbers.size(); i++){
-			names.push_back(binary(numbers[i], phoneBook));
-		}
-		return names;
-  }
-};
-
 int main(){
-	PhoneBook pb;
-	vector<Contact> phone_book = {Contact("a",6),Contact("i",65),Contact("el",13),
-		Contact("a",2432423),Contact("dje",3),Contact("fr",101)};
-	vector<int> numbers = {65,6,101,3,13,2432423};
-	vector<string> result = pb.lookupNames(phone_book,numbers);
-	for(unsigned i = 0; i < result.size(); i++){
-		cout<<result[i]<<" ";
+	int n,m,tmp;
+	string s;
+	cin >> n >> m;
+	while (n--){
+		cin >> tmp >> s;
+		phone_book.push_back(Contact(s,tmp));
 	}
-	cout<<"\nCOMPARE\ni a fr dje el a"<<endl;
+	sort(phone_book.begin(),phone_book.end(),cmp);
+	size = phone_book.size();
+	while (m--){
+		cin >> tmp;
+		binary(tmp);
+	}
 	return 0;
 }
