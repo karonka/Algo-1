@@ -9,32 +9,31 @@ public:
 	int priority;
 	string data;
 	Packet(int p, string d):priority(p),data(d){}
+	
 	bool operator<(const Packet& ob){
 		return priority < ob.priority;
+	}
+	bool operator<=(const Packet& ob){
+		return priority <= ob.priority;
 	}
 };
 
 class BandwidthManager {
 	
 	vector<Packet> queue;
-	void swap(Packet &a, Packet &b){
-		Packet tmp = a;
-		a = b;
-		b = tmp;
-	}
 	void go_up(int i){
-		while (i >= 1 && queue[i/2] < queue[i]){
-			swap(queue[i],queue[i/2]);
-			i = i/2;
+		while (i >= 1 && queue[(i-1)/2] < queue[i]){
+			swap(queue[i],queue[(i-1)/2]);
+			i = (i-1)/2;
 		}
 	}
 	void heapify(int i){
 		int size = queue.size();
 		int m = i;
 		while(i*2 + 1 < size){
-			if (i*2 + 1 < size && queue[m] < queue[i*2 + 1]) m = i*2 + 1;
-			if (i*2 + 2 < size && queue[m] < queue[i*2 + 2]) m = i*2 + 2;
-			if (queue[i] < queue[m]){
+			if (i*2 + 1 < size && queue[m] <= queue[i*2 + 1]) m = i*2 + 1;
+			if (i*2 + 2 < size && queue[m] <= queue[i*2 + 2]) m = i*2 + 2;
+			if (queue[i] <= queue[m] && i != m){
 				swap(queue[m],queue[i]);
 				i = m;
 			}
@@ -69,17 +68,19 @@ public:
 
 int main(){
 	BandwidthManager bm;
-	bm.rcv ("UDP", "zxchzrkljhklzrjlkhklzr");
-	bm.rcv ("TCP", "ghljkajklhgjklare");
-	bm.rcv ("ICMP", "ping87.129.54.123");
-	cout << bm.send() << endl;
-	cout << bm.send() << endl;
-	bm.rcv ("DNS", "maps.google.com");
-	cout << bm.send() << endl;
-	bm.rcv ("TCP", "aejkgjkaegaegae");
-	cout << bm.send() << endl;
-	cout << bm.send() << endl;
-	cout << bm.send() << endl;
+	int n;
+	string cmd,p,s;
+	cin >> n;
+	while(n--){
+		cin >> cmd;
+		if (cmd == "rcv"){
+			cin >> p >> s;
+			bm.rcv(p,s);
+		}
+		else if (cmd == "send"){
+			cout << bm.send() << endl;
+		}
+	}
 	
 	return 0;
 }

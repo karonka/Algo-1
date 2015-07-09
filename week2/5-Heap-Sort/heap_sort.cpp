@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cstdio>
 #include <cstring>
 #define INF 2147483647
 using namespace std;
@@ -8,7 +8,6 @@ void swap(int &a, int &b){
 	a = b;
 	b = tmp;
 }
-
 class HeapSort {
 public:
 	void make_heap(int* seq, int size){
@@ -37,17 +36,19 @@ public:
 			swap(seq[0], seq[size - i - 1]);
 			heapify(seq, size - i - 1, 0);
 		}
-		memcpy(seq,arr,size*sizeof(int));
+		for(int i = 0; i < size; i++) printf("%d ", arr[i]);
 	}
 };
 
 int main(){
-	//int arr[] = {5,10,3,20,16,8,12};
-	int arr[] = {0,5,3,6,4,8,4};
 	HeapSort hs;
-	hs.make_heap(arr,7);
-	for(int i = 0; i < 7; i++) cout<<arr[i]<<" ";cout<<endl;
-	hs.sort(arr,7);
-	for(int i = 0; i < 7; i++) cout<<arr[i]<<" ";cout<<endl;
+	int n;
+	int* arr;
+	scanf("%d", &n);
+	arr = new int[n];
+	for(int i = 0; i < n; i++) scanf("%d", &arr[i]);
+	hs.make_heap(arr,n);
+	hs.sort(arr,n);
+	delete [] arr;
 	return 0;
 }

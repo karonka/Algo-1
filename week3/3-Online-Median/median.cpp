@@ -46,9 +46,9 @@ public:
 		}
 	}
 	void go_up(vector<int>& seq, int mult, int i){
-		while (i >= 1 && seq[i]*mult < seq[i/2]*mult){
-			swap(seq[i],seq[i/2]);
-			i = i/2;
+		while (i >= 1 && seq[i]*mult < seq[(i-1)/2]*mult){
+			swap(seq[i],seq[(i-1)/2]);
+			i = (i-1)/2;
 		}
 	}
 };

@@ -84,7 +84,7 @@ public:
 				n = n -> left;
 			}
 		}
-		cout << n -> contact.number <<endl; 
+		cout << n -> contact.number << endl; 
 	}
 
 	//list all records in an alphabetical order
@@ -131,35 +131,33 @@ public:
 	void show(Node* node){
 		if (node == NULL) return;
 		show(node -> left);
-		cout << node->contact.name << " ";
+		cout << node->contact.name << " " << node->contact.number << endl;
 		show(node -> right);
 	}
 };
 
 int main(){
 	PhoneBook pb;
-	pb.insert(Contact("Kari",134));
-	pb.insert(Contact("Mara",153));
-	pb.insert(Contact("Pesho",166));
-	pb.list();cout<<endl;
-	pb.remove("Kari");
-	pb.list();cout<<endl;
-	pb.insert(Contact("Dani",5761));
-	pb.lookup("Pesho");
-	pb.insert(Contact("Carrie",17777));
-	pb.insert(Contact("Zack",4641));
-	pb.list();cout<<endl;
-	pb.remove("Mara");
-	pb.list();cout<<endl;
-	pb.lookup("Dani");
-	pb.insert(Contact("Kari",1));
-	pb.list();cout<<endl;
-	pb.lookup("Kari");
-	pb.lookup("Carrie");
-	pb.lookup("Zack");
-	pb.remove("Kari");
-	pb.lookup("Carrie");
-	pb.list();cout<<endl;
-	pb.remove("Zack");
-	pb.list();cout<<endl;
+	int n,tmp;
+	string s;
+	cin >> n;
+	while(n--){
+		cin >> s;
+		if (s == "insert"){
+			cin >> tmp >> s;
+			pb.insert(Contact(s,tmp));
+		}
+		else if (s == "lookup"){
+			cin >> s;
+			pb.lookup(s);
+		}
+		else if(s == "remove"){
+			cin >> s;
+			pb.remove(s);
+		}
+		else {
+			pb.list();
+		}
+	}
+	return 0;
 }

@@ -11,12 +11,6 @@ public:
   Node(int val = 0, Node* nxt = NULL):value(val),next(nxt){};
 };
 
-void swap(Node& a, Node& b){
-	Node tmp = a;
-	a = b;
-	b = tmp;
-}
-
 class KLists {
 public:
 	void make_heap(Node** seq, int size){
@@ -73,15 +67,30 @@ public:
 };
 
 int main(){
-	Node a5(1665,NULL),a4(233,&a5),a3(46,&a4),a2(3,&a3),a1(2,&a2);
-	Node b4(300,NULL),b3(234,&b4),b2(5,&b3),b1(0,&b2);
-	Node c5(111,NULL),c4(23,&c5),c3(22,&c4),c2(15,&c3),c1(2,&c2);
+	int sz;
+	scanf("%d", &sz);
+	vector<Node> lists;
+	for(int i = 0; i < sz; i++){
+		
+		int tmp = 0;
+		Node* prev;
+		scanf("%d", &tmp);
+		Node beg(tmp, NULL);
+		prev = &beg;
+		Node curr;
+		while(scanf("%d", &tmp) && tmp != -1){
+			Node* curr = new Node(tmp, NULL);
+			prev->next = curr;
+			prev = curr;
+		};
+		
+		lists.push_back(beg);
+	}
 	KLists ob;
-	vector<Node> lists = {a1,b1,c1};
 	Node node = ob.merge(lists);
 	Node* n = &node;
 	while(n != NULL){
-		cout<<n->value<<" ";
+		printf("%d ",n->value);
 		n = n->next;
 	}
 	return 0;

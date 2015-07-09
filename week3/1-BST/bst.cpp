@@ -1,37 +1,39 @@
-#include <iostream>
+#include <cstdio>
+#define MAXX 100000
+#define INF 2147483647
+
 using namespace std;
 
-class Node {
-public:
-  int value;
-  Node* left;
-  Node* right;
-  Node(int val,Node* l,Node* r):value(val), left(l), right(r){};
-};
+int arr[MAXX] = {};
+int N;
 
-class BST {
-public:
-  bool isBST(Node* root) {
-  	bool l = true, r = true;
-    if (root->left != NULL){
-    	if ((root->left) -> value < root -> value)
-    		l = isBST(root->left);
+bool check(int i, int min, int max){
+	bool l = true, r = true;
+    if (i*2 + 1 < N && arr[i*2 + 1]){
+    	if (arr[i*2 + 1] < arr[i] && arr[i*2 + 1] < max && arr[i*2 + 1] > min)
+    		l = check(i*2 + 1, min, arr[i]);
     	else
     		return false;
     }
-    if (root->left != NULL){
-    	if ((root -> right) -> value >= root -> value)
-    		r = isBST(root -> right);
+    if (i*2 + 2 < N && arr[i*2 + 2]){
+    	if (arr[i*2 + 2] > arr[i] && arr[i*2 + 2] > min && arr[i*2 + 2] < max)
+    		r = check(i*2 + 2, arr[i], max);
     	else
     		return false;
     }
     return l && r;
-  }
-};
+}
 
 int main(){
-	BST bst;
-	Node c(1,NULL,NULL), d(2,NULL,NULL), e(6,NULL,NULL), f(10,NULL,NULL), a(2,&c,&d), b(8,&e,&f), r(5,&a,&b);
-	cout<<bst.isBST(&r);
+	scanf("%d", &N);
+	for(int i = 0; i < N; i++){
+		scanf("%d", &arr[i]);
+	}
+	if (check(0, -INF, INF)) {
+		printf("YES");
+	}
+	else{
+		printf("NO");
+	}
 	return 0;
 }
