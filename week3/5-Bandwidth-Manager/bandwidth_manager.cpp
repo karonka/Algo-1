@@ -7,20 +7,21 @@ using namespace std;
 class Packet{
 public:
 	int priority;
+	int number;
 	string data;
-	Packet(int p, string d):priority(p),data(d){}
+	Packet(int p, int number, string d):priority(p),number(number),data(d){}
 	
 	bool operator<(const Packet& ob){
+		if (priority == ob.priority) return number > ob.number;
 		return priority < ob.priority;
-	}
-	bool operator<=(const Packet& ob){
-		return priority <= ob.priority;
 	}
 };
 
 class BandwidthManager {
 	
 	vector<Packet> queue;
+	int counter;
+	
 	void go_up(int i){
 		while (i >= 1 && queue[(i-1)/2] < queue[i]){
 			swap(queue[i],queue[(i-1)/2]);
@@ -31,9 +32,9 @@ class BandwidthManager {
 		int size = queue.size();
 		int m = i;
 		while(i*2 + 1 < size){
-			if (i*2 + 1 < size && queue[m] <= queue[i*2 + 1]) m = i*2 + 1;
-			if (i*2 + 2 < size && queue[m] <= queue[i*2 + 2]) m = i*2 + 2;
-			if (queue[i] <= queue[m] && i != m){
+			if (i*2 + 1 < size && queue[m] < queue[i*2 + 1]) m = i*2 + 1;
+			if (i*2 + 2 < size && queue[m] < queue[i*2 + 2]) m = i*2 + 2;
+			if (queue[i] < queue[m] && i != m){
 				swap(queue[m],queue[i]);
 				i = m;
 			}
@@ -42,8 +43,7 @@ class BandwidthManager {
 	}
 	
 public:
-
-	//receives a packet with specified protocol and payload
+	BandwidthManager():counter(0){}
 	void rcv(string protocol, string payload){
 		int priority = 0;
 		if (protocol == "ICMP") priority = 5;
@@ -51,11 +51,10 @@ public:
 		else if (protocol == "RTM") priority = 3;
 		else if (protocol == "IGMP") priority = 2;
 		else if (protocol == "DNS") priority = 1;
-		queue.push_back(Packet(priority,payload));
+		queue.push_back(Packet(priority,counter++,payload));
 		go_up(queue.size()-1);
 	}
 
-	//returns the payload of the packet which should be sent
 	string send(){
 		if (queue.size() < 1) return "Nothing to send!";
 		string result = queue[0].data;
@@ -81,6 +80,5 @@ int main(){
 			cout << bm.send() << endl;
 		}
 	}
-	
 	return 0;
 }

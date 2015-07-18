@@ -4,6 +4,13 @@
 
 using namespace std;
 
+/*string toL(string s){
+	for (int i = 0; i < s.size(); i++ ){
+		s[i] = tolower(s[i]);
+	}
+	return s;
+}*/
+
 class Contact {
 public:
   string name;
@@ -21,42 +28,32 @@ public:
 
 class PhoneBook {
 	Node* beg;
-	void deleteNode(Node* node){
-		if (node == NULL) return;
-		deleteNode (node -> left);
-		deleteNode (node -> right);
-		delete node;
-	}
 public:
 	PhoneBook():beg(NULL){}
-	~PhoneBook(){
-		deleteNode(beg);
-	}
-
-	//inserts a new contact
+	
 	void insert(Contact contact){
 		Node* currNode = beg;
-		Node* father = NULL;
+		Node* parent = NULL;
 		while(currNode != NULL){
 			if (currNode -> contact.name == contact.name){
 				currNode -> contact.number = contact.number;
 				return;
 			}
 			else if (currNode -> contact.name > contact.name){
-				father = currNode;
+				parent = currNode;
 				currNode = currNode -> left;
 			}
 			else {// currNode -> contact.name < contact.name
-				father = currNode;
+				parent = currNode;
 				currNode = currNode -> right;
 			}
 		}
 		if (beg != NULL){
-			if(contact.name < father -> contact.name){
-				father -> left = new Node(contact, NULL, NULL);
+			if(contact.name < parent -> contact.name){
+				parent -> left = new Node(contact, NULL, NULL);
 			}
 			else{
-				father -> right = new Node(contact, NULL, NULL);
+				parent -> right = new Node(contact, NULL, NULL);
 			}
 		}
 		else{
@@ -64,10 +61,12 @@ public:
 		}
 	}
 
-	//lookup a name and print its phone number
 	void lookup(string name){
 		Node* n = beg;
-		if (n == NULL) return;
+		if (n == NULL) {
+			cout << "NOT FOUND!"<<endl;
+			return;
+		}
 		while(n -> contact.name != name){
 			if (name > n -> contact.name){
 				if(n -> right == NULL){
@@ -87,18 +86,16 @@ public:
 		cout << n -> contact.number << endl; 
 	}
 
-	//list all records in an alphabetical order
 	void list() {
 		show(beg);
 	}
 
-	//remove a record for a given name
 	void remove(string name) {
 		if (beg == NULL) return;
 		Node* toRemove = beg;
-		Node* father = NULL;
+		Node* parent = NULL;
 		while(toRemove -> contact.name != name){
-			father = toRemove;
+			parent = toRemove;
 			if (name > toRemove -> contact.name){
 				if(toRemove -> right == NULL) return;
 				toRemove = toRemove -> right;
@@ -109,23 +106,27 @@ public:
 			}
 		}
 		if (toRemove -> right != NULL){
-			father = toRemove;
+			parent = toRemove;
 			Node* leftmost = toRemove -> right;
 			while (leftmost -> left != NULL){
-				father = leftmost;
+				parent = leftmost;
 				leftmost = leftmost -> left;
 			}
 			toRemove -> contact = leftmost -> contact;
-			if (father -> right == leftmost)//
-				father -> right = leftmost -> right;
+			if (parent -> right == leftmost)//
+				parent -> right = leftmost -> right;
 			else
-				father -> left = leftmost -> right;
+				parent -> left = leftmost -> right;
 		}
 		else{
-			if (father -> contact.name < toRemove -> contact.name)
-				father -> right = toRemove -> left;
+			if (toRemove == beg) {
+				beg = beg -> left;
+				return;
+			}
+			if (parent -> contact.name < toRemove -> contact.name)
+				parent -> right = toRemove -> left;
 			else 
-				father -> left = toRemove -> left;
+				parent -> left = toRemove -> left;
 		}
 	}
 	void show(Node* node){
