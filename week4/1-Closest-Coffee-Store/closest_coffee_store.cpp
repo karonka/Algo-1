@@ -1,47 +1,56 @@
-#include <iostream>
+#include <cstdio>
 #include <cstring>
 #include <queue>
+#define MAXX 1001
 using namespace std;
 
-class ClosestCoffeeStore {
-public:
-	int closestCoffeeStore(bool** graph, bool* isCoffeStore, int size, int startingPoint){
-		bool* visited = new bool[size];
-		memset(visited, 0, sizeof(bool)*size);
-		queue<int> q;
-		q.push(startingPoint);
-		while( q.size() > 0 && !isCoffeStore[q.front()] ){
-			startingPoint = q.front();
-			visited[startingPoint] = true;
-			q.pop();
-			for(int i = 0; i < size; i++){
-				if (graph[startingPoint][i] && !visited[i]){
-					q.push(i);
-				}
+int isCoffeStore[MAXX] = {};
+int mat[MAXX][MAXX] = {};
+bool visited[MAXX] = {};
+int pl[MAXX] = {};
+int size, startingPoint;
+
+int closestCoffeeStore(){
+	int curr = startingPoint;
+	queue<int> q;
+	q.push(curr);
+	while( q.size() > 0 && !isCoffeStore[q.front()]){
+		curr = q.front();
+		visited[curr] = true;
+		q.pop();
+		for(int i = 1; i <= size; i++){
+			if (mat[curr][i] && !visited[i]){
+				if (!pl[i]) pl[i] = curr;
+				q.push(i);
 			}
 		}
-		delete [] visited;
-		if (q.size() > 0) return q.front();
-		return -1;
 	}
-};
+	if (q.size() > 0){
+		int x = 0;
+		int i = q.front();
+		while(i != startingPoint) {
+			x++;
+			i = pl[i];
+		}
+		return x;
+	}
+	return -1;
+}
 
 int main(){
-	ClosestCoffeeStore ccs;
+	scanf("%d", &size);
+	for(int i = 1; i <= size; i++){
+		for(int j = 1; j <= size; j++){
+			scanf("%d", &mat[i][j]);
+		}
+	}
+	scanf("%d", &startingPoint);
+	startingPoint++;
+	for(int i = 1; i <= size; i++){
+		scanf("%d", &isCoffeStore[i]);
+	}
 	
-	bool isCoffeStore [6] = {
-		0, 0, 1, 0, 0, 1
-	};
-	bool** graph = new bool*[6]{ 
-		new bool[6] {0, 1, 0, 1, 0, 0}, 
-		new bool[6] {1, 0, 1, 0, 0, 0}, 
-		new bool[6] {0, 1, 0, 0, 1, 0}, 
-		new bool[6] {1, 0, 0, 0, 0, 0}, 
-		new bool[6] {0, 0, 1, 0, 0, 1},
-		new bool[6] {0, 0, 0, 0, 1, 0}
-	};
-
-	cout<<ccs.closestCoffeeStore(graph,isCoffeStore,6,0);
+	printf("%d\n",closestCoffeeStore());
 	
 	return 0;
 }

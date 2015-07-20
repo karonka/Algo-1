@@ -1,42 +1,47 @@
-#include <iostream>
+#include <cstdio>
 #include <cstring>
 #include <stack>
+#define MAXX 1001
 using namespace std;
+
+int graph[MAXX][MAXX] = {};
+int visited[MAXX] = {};
+int n;
+
+void input(){
+	scanf("%d",&n);
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++){
+				scanf("%d", &graph[i][j]);
+		}
+	}
+}
 
 class ValidDirectories {
 public:
-	bool dfs(int** graph, bool* visited, int i, int size){
-		if (visited[i]) return false;
-		visited[i] = true;
+	bool dfs(int i, int size){
+		if (visited[i] == 2) return false;
+		visited[i] = 2;
 		for(int j = 0; j < size; j++){
-			if (graph[i][j] == 1){
-				if (!dfs(graph, visited, j, size)) return false;
+			if (graph[i][j] == 1 && visited[j] != 1){
+				if (!dfs(j, size)) return false;
 			}
 		}
-		visited[i] = false;
+		visited[i] = 1;
 		return true;
 	}
-	bool isValid(int** graph, int size) {
-		bool* visited = new bool[size];
-		memset(visited, 0, sizeof(bool)*size);
-		return dfs(graph, visited, 0, size);
+	bool isValid() {
+		return dfs(0, n);
 	}
 };
 
 
 int main(){
 	ValidDirectories vd;
-	
-	int** graph = new int*[6]{ 
-		new int[6] {0, 1, 0, 1, 0, 2}, 
-		new int[6] {0, 0, 2, 0, 0, 0}, 
-		new int[6] {0, 0, 0, 0, 0, 0}, 
-		new int[6] {0, 0, 0, 0, 2, 0}, 
-		new int[6] {0, 0, 0, 0, 0, 0},
-		new int[6] {0, 0, 0, 0, 0, 0}
-	};
-	
-	cout<<vd.isValid(graph,6)<<endl;
-	
+	input();
+	if(vd.isValid())
+		printf("true\n");
+	else
+		printf("false\n");
 	return 0;
 }

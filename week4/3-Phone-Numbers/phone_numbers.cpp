@@ -37,6 +37,11 @@ int main(){
 			dfs(i);
 		}
 	}
+	/*for(int i = 0; i < 10; i++){
+		for(int j = 0; j < 10; j++)
+			printf("%d ",mat[i][j]);
+		printf("\n");
+	}*/
 	printf("%d", k);
 	return 0;
 }
